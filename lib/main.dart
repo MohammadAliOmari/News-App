@@ -7,6 +7,7 @@ import 'package:news_app/shared/cubit/states.dart';
 import 'package:news_app/shared/network/dio_helper.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
 
   runApp(const MyApp());
@@ -22,8 +23,7 @@ class MyApp extends StatelessWidget {
       create: (context) => NewsCubit()
         ..getBusiness()
         ..getSports()
-        ..getScience()
-        ..changeAppMode(),
+        ..getScience(),
       child: BlocConsumer<NewsCubit, NewsStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -69,14 +69,14 @@ class MyApp extends StatelessWidget {
             ),
             darkTheme: ThemeData(
               primarySwatch: Colors.deepOrange,
-              scaffoldBackgroundColor: const Color(0x00333739),
+              scaffoldBackgroundColor: Colors.grey,
               appBarTheme: const AppBarTheme(
                 titleSpacing: 20.0,
                 systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Color(0x00333739),
+                  statusBarColor: Colors.grey,
                   statusBarIconBrightness: Brightness.light,
                 ),
-                backgroundColor: Color(0x00333739),
+                backgroundColor: Colors.grey,
                 elevation: 0.0,
                 titleTextStyle: TextStyle(
                   color: Colors.white,
@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
                 selectedItemColor: Colors.deepOrange,
                 unselectedItemColor: Colors.grey,
                 elevation: 20.0,
-                backgroundColor: Color(0x00333739),
+                backgroundColor: Colors.grey,
               ),
               textTheme: const TextTheme(
                 bodyLarge: TextStyle(

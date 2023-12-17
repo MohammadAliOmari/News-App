@@ -23,7 +23,7 @@ class NewsLayout extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  NewsCubit.get(context).changeAppMode();
+                  cubit.changeAppMode();
                   print(cubit.isDark);
                 },
                 icon: Icon(Icons.dark_mode),
