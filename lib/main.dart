@@ -4,23 +4,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/layout/news_layout.dart';
 import 'package:news_app/shared/cubit/cubit.dart';
 import 'package:news_app/shared/cubit/states.dart';
+import 'package:news_app/shared/network/cashe_helper.dart';
 import 'package:news_app/shared/network/dio_helper.dart';
+import 'package:news_app/shared/themes/themes.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
-
-  runApp(const MyApp());
+  await CacheHelper.init();
+  bool isDark = CacheHelper.getData(key: 'isDark') ?? false;
+  runApp(MyApp(isDark));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isDark;
 
-  // This widget is the root of your application.
+  const MyApp(this.isDark, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => NewsCubit()
+        ..changeAppMode(fromShared: isDark)
         ..getBusiness()
         ..getSports()
         ..getScience(),
@@ -29,85 +34,11 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.deepOrange,
-              scaffoldBackgroundColor: Colors.white,
-              appBarTheme: const AppBarTheme(
-                titleSpacing: 20.0,
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Colors.white,
-                  statusBarIconBrightness: Brightness.dark,
-                ),
-                backgroundColor: Colors.white,
-                elevation: 0.0,
-                titleTextStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-                iconTheme: IconThemeData(
-                  color: Colors.black,
-                ),
-              ),
-              floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                backgroundColor: Colors.deepOrange,
-              ),
-              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: Colors.deepOrange,
-                unselectedItemColor: Colors.grey,
-                elevation: 20.0,
-                backgroundColor: Colors.white,
-              ),
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            darkTheme: ThemeData(
-              primarySwatch: Colors.deepOrange,
-              scaffoldBackgroundColor: Colors.grey,
-              appBarTheme: const AppBarTheme(
-                titleSpacing: 20.0,
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Colors.grey,
-                  statusBarIconBrightness: Brightness.light,
-                ),
-                backgroundColor: Colors.grey,
-                elevation: 0.0,
-                titleTextStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-                iconTheme: IconThemeData(
-                  color: Colors.white,
-                ),
-              ),
-              floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                backgroundColor: Colors.deepOrange,
-              ),
-              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: Colors.deepOrange,
-                unselectedItemColor: Colors.grey,
-                elevation: 20.0,
-                backgroundColor: Colors.grey,
-              ),
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            theme: lightTheme,
+            darkTheme: darkTheme,
             themeMode: NewsCubit.get(context).isDark
-                ? ThemeMode.light
-                : ThemeMode.dark,
+                ? ThemeMode.dark
+                : ThemeMode.light,
             home: const NewsLayout(),
           );
         },

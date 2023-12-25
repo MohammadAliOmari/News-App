@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/modules/search_page.dart';
 import 'package:news_app/shared/cubit/cubit.dart';
 import 'package:news_app/shared/cubit/states.dart';
 
@@ -18,13 +19,16 @@ class NewsLayout extends StatelessWidget {
           appBar: AppBar(
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Search(),
+                  ));
+                },
                 icon: Icon(Icons.search),
               ),
               IconButton(
                 onPressed: () {
                   cubit.changeAppMode();
-                  print(cubit.isDark);
                 },
                 icon: Icon(Icons.dark_mode),
               ),

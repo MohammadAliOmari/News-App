@@ -34,14 +34,12 @@ Widget defaultTextformfiled({
   required var textinput,
   required Function validate,
   var suficon,
-  Function? onTap,
+  void Function(String)? onChange,
   bool obscureText1 = false,
   Function? obsfunction,
 }) =>
     TextFormField(
-        onTap: () {
-          onTap!();
-        },
+        onChanged: onChange,
         controller: control,
         keyboardType: textinput,
         decoration: InputDecoration(
@@ -197,7 +195,7 @@ class _MainbtnState extends State<Mainbtn> {
   }
 }
 
-Widget articleBuilder(list) {
+Widget articleBuilder(list, {isSearch = false}) {
   if (list.length > 0) {
     return ListView.separated(
         physics: BouncingScrollPhysics(),
@@ -207,7 +205,7 @@ Widget articleBuilder(list) {
         itemCount: list.length);
   } else {
     return Center(
-      child: CircularProgressIndicator(),
+      child: isSearch ? Container() : CircularProgressIndicator(),
     );
   }
 }
