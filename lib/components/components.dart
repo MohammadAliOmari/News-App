@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:news_app/modules/web_view.dart';
 
 // def button
 Widget defaultButton(
@@ -96,52 +97,75 @@ Widget buildTaskItem(Map model) => Padding(
       ),
     );
 
-Widget buildArticaleItem(article, context) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Container(
-            width: 120.0,
-            height: 120.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              image: DecorationImage(
-                image: NetworkImage(
-                    '${article['urlToImage'] ?? "https://api.uznews.uz/images/default-image.jpg"}'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20.0,
-          ),
-          Expanded(
-            child: SizedBox(
+Widget buildArticaleItem(article, context) => GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WebVieww(url: article['url']),
+            ));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            Container(
+              width: 120.0,
               height: 120.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${article['title']}',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Text(
-                    '${article['publishedAt']}',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      '${article['urlToImage'] ?? "https://api.uznews.uz/images/default-image.jpg"}'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              width: 20.0,
+            ),
+            Expanded(
+              child: SizedBox(
+                height: 120.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                  mainAxisAlignment: MainAxisAlignment.start,
+
+                  // ignore: prefer_const_literals_to_create_immutables
+
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${article['title']}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          article['publishedAt'].toString().substring(0, 10),
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          article['publishedAt'].toString().substring(11, 16),
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
 

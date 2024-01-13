@@ -24,10 +24,10 @@ class Search extends StatelessWidget {
                     onSubmitted: (value) {
                       cubit.getSearch(value);
                     },
-                    onTap: () {},
-                    onChanged: (String value) {
-                      cubit.getSearch(value);
-                    },
+                    // onTap: () {},
+                    // onChanged: (String value) {
+                    //   cubit.getSearch(value);
+                    // },
                     controller: searchController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
